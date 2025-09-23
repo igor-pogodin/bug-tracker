@@ -60,15 +60,20 @@ pipeline {
           sh '''
             set -eux
             npm ci
-            # если в проекте есть скрипт test, этого достаточно.
-            # чтобы избежать зависания в watch-режиме, CI=true уже задан.
             npm test -- --runInBand
+            mkdir -p reports
+            mv coverage reports/
           '''
         }
       }
       post {
         always {
           junit 'bugtracker-frontend/test-results.xml'
+          publishHTML target: [
+            reportDir: 'bugtracker-frontend/reports/coverage',
+            reportFiles: 'index.html',
+            reportName: 'Frontend Coverage Report'
+          ]
         }
       }
     }
