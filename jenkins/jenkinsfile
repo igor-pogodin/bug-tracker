@@ -148,7 +148,7 @@ pipeline {
           }
         }
 
-        stage('Performance Tests'){
+        stage('Performance Tests') {
             agent {
                 docker {
                     image 'grafana/k6:latest'
@@ -165,10 +165,11 @@ pipeline {
                 always {
                     publishHTML target: [
                         reportDir: 'tests-perf',
-                        reportFiles: 'perf-resulsts.html',
+                        reportFiles: 'perf-results.html',
                         reportName: 'K6 Performance Test Report'
                     ]
                 }
+            }
         }
     }
     post {
